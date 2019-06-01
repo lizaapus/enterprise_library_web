@@ -23,8 +23,8 @@
     <div>
       <div class="block">
         <el-pagination
-          @size-change="$store.commit('handleSizeChange')"
-          @current-change="$store.commit('handleCurrentChange')"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
           :current-page="$store.state.currentPage"
           :page-sizes="$store.state.pageSizes"
           :page-size="$store.state.pageSize"
@@ -44,7 +44,16 @@ export default {
     } catch (e) {
       console.log(e);
     }
-  }
+  },
+   methods: {
+      handleSizeChange(val) {
+        this.$store.commit("handleSizeChange", {val:val,ref:this});
+        //console.log(`每页 ${val} 条`);
+      },
+      handleCurrentChange(val) {
+        this.$store.commit("handleCurrentChange", {val:val,ref:this});
+      }
+    },
 };
 </script>
 <style scoped>

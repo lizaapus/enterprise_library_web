@@ -7,14 +7,15 @@
             <div class="sectionDiv">
               <ul>
                 <li v-for="section in $store.state.sectionList">
-                  <router-link
+                  <div class="sectionDiv" @click="setSectionCompanyList(section)">
+                      <span v-text="section.sectionName"></span>
+                    </div>
+                  <!-- <router-link
                     :to="{name:'compantList',params:{path:section.path,sectionName:section.sectionName}}"
                     class="linkStyle"
                   >
-                    <div class="sectionDiv" @click="getData(section)">
-                      <span v-text="section.sectionName"></span>
-                    </div>
-                  </router-link>
+                    
+                  </router-link> -->
                 </li>
               </ul>
             </div>
@@ -26,7 +27,17 @@
           <el-col :span="24">
             <div class="sectionModeDiv">
               <ul>
-                <li v-for="mode in modes">
+                 <li v-for="mode in $store.state.modeList">
+                  <router-link
+                    :to="{name:'modeList',params:{path:mode.path,modeName:mode.modeName}}"
+                    class="linkStyle"
+                  >
+                    <div class="sectionDiv" @click="setModeCompanyList(mode)">
+                      <span v-text="mode.modeName"></span>
+                    </div>
+                  </router-link>
+                </li>
+                <!-- <li v-for="mode in modes">
                   <router-link
                     :to="{name:'compantList',params:{path:mode.path,sectionName:mode.name}}"
                     class="linkStyle"
@@ -35,7 +46,7 @@
                       <span v-text="mode.name"></span>
                     </div>
                   </router-link>
-                </li>
+                </li> -->
               </ul>
             </div>
           </el-col>
@@ -56,14 +67,18 @@ export default {
     handleChange(val) {
       console.log(val);
     },
-    getData(item) {
-      this.$store.commit("setSectionList", section.sectionName);
+    setSectionCompanyList(item) {
+      this.$store.commit("setCompanySectionList", {sectionName:item.sectionName,ref:this});
+    },
+    setModeCompanyList(item){
+      this.$store.commit('setCompanyModeList',{modeName:item.modeName,ref:this})
     }
   },
   async created() {
     try {
       //const result = await this.$http.get("/api/sectionData");
       this.$store.commit("setSectionList", this);
+      this.$store.commit('setModeList',this);
     } catch (e) {
       console.log(e);
     }

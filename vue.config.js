@@ -1,5 +1,6 @@
 module.exports = {
     configureWebpack: {
+        devtool: 'source-map',
         devServer: {
             port: 7000,
             open: true,
@@ -17,26 +18,47 @@ module.exports = {
                         Data: modeData,
                     })
                 })
-                //获取所有数据信息
+                //获取指定页数据信息
                 app.get('/api/getCompanyList', (req, res) => {
                     const {
+                        sectionName,
+                        modeName,
                         startIndex,
-                        endIndex
+                        endIndex,
                     } = req.query;
-                    var data = [];
-                    var total = companyDic.length;
-                    for (let i = startIndex; i < endIndex; i++) {
-                        data.push(companyDic[i]);
+                    var data = new Array();
+                    if (sectionName == '' && modeName == '')
+                    {
+                        try{
+                            for (var i = parseInt(startIndex); i < parseInt(endIndex); i++) {
+                                data.push(companyDic[i]);
+                            }
+                        }catch(err){
+                            console.log(err);
+                        }
+                        
+                    }
+                    if (sectionName != ''){
+                        let tempData = companyDic.filter(c => c.sectionName == sectionName);
+                        for (let i =  parseInt(startIndex); i <  parseInt(endIndex); i++) {
+                            data.push(tempData[i]);
+                        }
+                    }
+                    if (modeName != ''){
+                        let tempData = companyDic.filter(c => c.modeName == modeName);
+                        for (let i =  parseInt(startIndex); i <  parseInt(endIndex); i++) {
+                            data.push(tempData[i]);
+                        }
                     }
                     res.json({
-                        totalNumb: total,
                         Data: data,
                     })
                 })
+                //获取页面数据总数
                 app.get('/api/getCompanyListTotalNumb', (req, res) => {
                     const {
                         sectionName,
-                        modeName
+                        modeName,
                     } = req.query;
                     var len = 0;
                     if (sectionName == '' && modeName == '')
@@ -47,31 +69,6 @@ module.exports = {
                         len = companyDic.filter(c => c.modeName == modeName).length;
                     res.json({
                         length: len
-                    });
-                })
-                //获取按照地区划分的公司数据信息
-                app.get('/api/getCompanyListBySection', (req, res) => {
-                    const {
-                        sectionName
-                    } = req.query;
-                    var tempDic = companyDic.filter(c => c.sectionName == sectionName);
-                    total = tempDic.length;
-                    for (let i = startIndex; i < endIndex > tempDic.length ? tempDic.length : endIndex; i++) {
-                        data.push(tempDic[i]);
-                    }
-                    res.json({
-                        totalNumb: total,
-                        Data: data,
-                    });
-                })
-                //获取按照经营模式划分的公司数据信息
-                app.get('/api/getCompanyListByMode', (req, res) => {
-                    const {
-                        modeName
-                    } = req.query;
-                    var data = companyDic.filter(c => c.modeName == modeName);
-                    res.json({
-                        Data: data,
                     });
                 })
                 //根据url获取公司的详细信息
@@ -85,7 +82,8 @@ module.exports = {
                     })
                 })
                 //所在地
-                const sectionData = [{
+                const sectionData = [
+                    {
                         id: 1,
                         sectionName: '北京',
                         path: '/beijing'
@@ -114,7 +112,8 @@ module.exports = {
                     },
                 ]
                 //经营模式
-                const modeData = [{
+                const modeData = [
+                    {
                         id: 1,
                         modeName: '全国总代理',
                         path: '/qgzdl'
@@ -140,14 +139,15 @@ module.exports = {
                     },
                 ]
                 //所有公司信息
-                const companyDic = [{
+                const companyDic = [
+                    {
                         id: 1,
                         companyName: '山东康迪医疗设备有限公司',
                         companyUrl: 'http://ssdsst.3618med.com',
                         conpanyDescribe: ' 曲阜市康迪医疗器械有限公司座落在伟大的思想家、教育家、儒家学派创始人孔子的故乡——山东曲阜。 本公司是集研发、生产、经营、销售、技术服务于一体的科技创新型企业。公司拥有国内先进的加工设备、齐全的检测手段和完善的管理体系。 公司通过自主研发，开发出了以无影灯类系列、手术床系列、手术室设备... ',
                         companyImgUrl: 'http://static.3618med.com/resources/c5/87/xtmdhbbtuenwrdxfmsvsafdr_90x90_4.png',
                         modeName: '生产厂家',
-                        sectionName: '山东',
+                        sectionName: '山东 济南',
                         path: '/ssdsst'
                     }, {
                         id: 2,
@@ -165,7 +165,7 @@ module.exports = {
                         conpanyDescribe: ' 山东骏腾医疗科技有限公司于2015年成立，坐落于美丽的泉城--济南，是一家集生产、研发、销售、服务四位一体的医疗器械高新技术企业。      公司自成立以来一直致力于病理学技术的研究，以“Happiness Tree”为核心品牌，先后推出多款型号的HT系列快速组织处理系统及处理试剂，具有快速、... ',
                         companyImgUrl: 'http://static.3618med.com/resources/ab/y3/mnypgkfsbcmrqemgaqxhyclm_90x90_4.jpg',
                         modeName: '经销商',
-                        sectionName: '山东',
+                        sectionName: '山东 济南',
                         path: '/jtkj'
                     },
                     {
@@ -215,9 +215,19 @@ module.exports = {
                         conpanyDescribe: ' 曲阜市康迪医疗器械有限公司座落在伟大的思想家、教育家、儒家学派创始人孔子的故乡——山东曲阜。 本公司是集研发、生产、经营、销售、技术服务于一体的科技创新型企业。公司拥有国内先进的加工设备、齐全的检测手段和完善的管理体系。 公司通过自主研发，开发出了以无影灯类系列、手术床系列、手术室设备... ',
                         companyImgUrl: 'http://static.3618med.com/resources/c5/87/xtmdhbbtuenwrdxfmsvsafdr_90x90_4.png',
                         modeName: '生产厂家',
-                        sectionName: '山东',
+                        sectionName: '山东 济南',
                         path: '/ssdsst'
-                    }, {
+                    },  {
+                        id: 10,
+                        companyName: '山东骏腾医疗科技有限公司',
+                        companyUrl: 'http://jtkj.3618med.com',
+                        conpanyDescribe: ' 山东骏腾医疗科技有限公司于2015年成立，坐落于美丽的泉城--济南，是一家集生产、研发、销售、服务四位一体的医疗器械高新技术企业。      公司自成立以来一直致力于病理学技术的研究，以“Happiness Tree”为核心品牌，先后推出多款型号的HT系列快速组织处理系统及处理试剂，具有快速、... ',
+                        companyImgUrl: 'http://static.3618med.com/resources/ab/y3/mnypgkfsbcmrqemgaqxhyclm_90x90_4.jpg',
+                        modeName: '经销商',
+                        sectionName: '山东 济南',
+                        path: '/jtkj'
+                    },
+                    {
                         id: 9,
                         companyName: '上海美吉逾华生物医药科技有限公司',
                         companyUrl: 'http://majorivd.3618med.com',
@@ -226,15 +236,6 @@ module.exports = {
                         modeName: '全国总代理',
                         sectionName: '上海',
                         path: '/majorivd'
-                    }, {
-                        id: 10,
-                        companyName: '山东骏腾医疗科技有限公司',
-                        companyUrl: 'http://jtkj.3618med.com',
-                        conpanyDescribe: ' 山东骏腾医疗科技有限公司于2015年成立，坐落于美丽的泉城--济南，是一家集生产、研发、销售、服务四位一体的医疗器械高新技术企业。      公司自成立以来一直致力于病理学技术的研究，以“Happiness Tree”为核心品牌，先后推出多款型号的HT系列快速组织处理系统及处理试剂，具有快速、... ',
-                        companyImgUrl: 'http://static.3618med.com/resources/ab/y3/mnypgkfsbcmrqemgaqxhyclm_90x90_4.jpg',
-                        modeName: '经销商',
-                        sectionName: '山东',
-                        path: '/jtkj'
                     },
                     {
                         id: 11,
@@ -283,7 +284,7 @@ module.exports = {
                         conpanyDescribe: ' 曲阜市康迪医疗器械有限公司座落在伟大的思想家、教育家、儒家学派创始人孔子的故乡——山东曲阜。 本公司是集研发、生产、经营、销售、技术服务于一体的科技创新型企业。公司拥有国内先进的加工设备、齐全的检测手段和完善的管理体系。 公司通过自主研发，开发出了以无影灯类系列、手术床系列、手术室设备... ',
                         companyImgUrl: 'http://static.3618med.com/resources/c5/87/xtmdhbbtuenwrdxfmsvsafdr_90x90_4.png',
                         modeName: '生产厂家',
-                        sectionName: '山东',
+                        sectionName: '山东 济南',
                         path: '/ssdsst'
                     }, {
                         id: 16,
@@ -301,7 +302,7 @@ module.exports = {
                         conpanyDescribe: ' 山东骏腾医疗科技有限公司于2015年成立，坐落于美丽的泉城--济南，是一家集生产、研发、销售、服务四位一体的医疗器械高新技术企业。      公司自成立以来一直致力于病理学技术的研究，以“Happiness Tree”为核心品牌，先后推出多款型号的HT系列快速组织处理系统及处理试剂，具有快速、... ',
                         companyImgUrl: 'http://static.3618med.com/resources/ab/y3/mnypgkfsbcmrqemgaqxhyclm_90x90_4.jpg',
                         modeName: '经销商',
-                        sectionName: '山东',
+                        sectionName: '山东 济南',
                         path: '/jtkj'
                     },
                     {
@@ -349,5 +350,6 @@ module.exports = {
 
             }
         }
+        
     }
 }

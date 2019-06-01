@@ -8,10 +8,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    modeList: [],
-    sectionList: [],
-
-    companyList: [],
+    modeList: new Array(),
+    sectionList: new Array(),
+    companyList: new Array(),
     selectedSection: '',
     selectedMode: '',
     pageSizes: [5, 10, 15, 20],
@@ -26,85 +25,92 @@ export default new Vuex.Store({
       const result = await ref.$http.get("/api/sectionData");
       state.sectionList = result.Data;
     },
+    async setModeList(state,ref){
+      const result = await ref.$http.get('/api/modeData');
+      state.modeList = result.Data;
+    },
+
     async setCompanyList(state, ref) {
       try {
-        const numb = await ref.$http.get('/api/getCompanyListTotalNumb', {
-          params: {
-            sectionName: '',
-            modeName: ''
-          }
-        });
-
-        state.totalItemNum = numb.length;
-        state.startIndex = 0;
-        state.endIndex = state.totalItemNum < state.pageSize ? state.totalItemNum : state.pageSize;
-
-        const result = await ref.$http.get("/api/getCompanyList", {
-          params: {
-            startIndex: state.startIndex,
-            endIndex: state.endIndex
-          }
-        });
-
-        state.companyList = result.Data;
-        state.totalItemNum = result.totalNumb;
-        state.currentPage = 1;
+        state.selectedSection = '';
+        state.selectedMode = '';
+        this.commit('setData',ref);
       } catch (err) {
         alert(err);
       }
 
     },
     async setCompanySectionList(state, data) {
-      state.selectedSection = data;
+      state.selectedSection = data.sectionName;
       state.selectedMode = '';
-      state.currentPage = 1;
-      const result = await this.$http.get("/api/getCompanyListBySection", {
-        sectionName: data
-      });
-      state.sectionList = result.Data;
-      state.totalItemNum = totalNumb;
+      this.commit('setData',data.ref);
     },
-    setCompanyModeList(state, modeName) {
-      state.selectedSection = modeName;
-      state.selectedMode = '';
-      state.currentPage = 1;
-      const result = this.$http.get("/api/getCompanyList", {
-        sectionName: data,
-        modeName: '',
-        startIndex: 1,
-        endIndex: state.pageSize
+    setCompanyModeList(state, data) {
+      state.selectedSection = '';
+      state.selectedMode = data.modeName;
+      this.commit('setData',data.ref);
+    },
+
+    async setData(state,ref){
+      const numb = await ref.$http.get('/api/getCompanyListTotalNumb', {
+        params: {
+          sectionName: state.selectedSection,
+          modeName: state.selectedMode,
+        }
       });
-      state.sectionList = result.Data;
-
-
-      state.modeList = data;
+      state.totalItemNum = numb.length;
+      state.currentPage = 1;
+      state.startIndex = 0;
+      state.endIndex = state.totalItemNum < state.pageSize ? state.totalItemNum : state.pageSize;
+      
+      const result = await ref.$http.get("/api/getCompanyList", {
+        params: {
+          sectionName: state.selectedSection,
+          modeName: state.selectedMode,
+          startIndex: state.startIndex,
+          endIndex: state.endIndex
+        }
+      });
+      state.companyList = result.Data;
     },
     //改变pagesize
-    handleSizeChange(state, val) {
-      state.pageSize = val;
-      state.companyList = [];
+   async handleSizeChange(state, data) {
+      //alert(data.val);
+      state.pageSize = data.val;
       state.startIndex = (state.currentPage - 1) * state.pageSize;
       state.endIndex = state.currentPage * state.pageSize;
-      //   const result = await this.$http.get("/api/getCompanyListBySection",{sectionName:data,modeName:'',
-      //   startIndex:1,
-      //   endIndex:state.pageSize});
-      // state.sectionList = result;
-      // if (endIndex > this.totalItemNum) endIndex = this.totalItemNum;
-      // for (var i = startIndex; i < endIndex; i++) {
-      //   this.items.push(this.Totalitems[i]);
-      // }
+      
+      const result = await data.ref.$http.get("/api/getCompanyList", {
+        params: {
+          sectionName: state.selectedSection,
+          modeName: state.selectedMode,
+          startIndex: state.startIndex,
+          endIndex: state.endIndex
+        }
+      });
+      state.companyList = result.Data;
     },
     //翻页
-    handleCurrentChange(state, val) {
+   async handleCurrentChange(state, data) {
+      //alert(data.val);
       state.items = [];
-      state.startIndex = (val - 1) * this.pageSize;
-      state.endIndex = val * this.pageSize;
-      if (state.endIndex > this.totalItemNum)
-        state.endIndex = state.totalItemNum;
-      // for (var i = state.startIndex; i < state.endIndex; i++) {
-      //   this.items.push(this.Totalitems[i]);
-      // }
-      state.currentPage = val;
+      state.currentPage = data.val;
+      let index = data.val*state.pageSize;
+      state.startIndex = (data.val - 1) * state.pageSize;
+      state.endIndex =index>state.totalItemNum?state.totalItemNum:index;
+      
+      // alert(state.startIndex);
+      // alert(state.endIndex);
+
+      const result = await data.ref.$http.get("/api/getCompanyList", {
+        params: {
+          sectionName: state.selectedSection,
+          modeName: state.selectedMode,
+          startIndex: state.startIndex,
+          endIndex: state.endIndex
+        }
+      });
+      state.companyList = result.Data;
     },
   },
   actions: {}
