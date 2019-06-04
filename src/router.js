@@ -1,17 +1,32 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-
+import companyList from './views/companyList.vue'
+import detailPage from './views/detail.vue'
 Vue.use(Router)
 
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: [
-    {
+  routes: [{
       path: '/',
-      name: 'home',
-      component: Home
+      component: Home,
+      children: [{
+          path: "",
+          name: "home",
+          component: companyList
+        },
+        {
+          path: '/:sectionID',
+          name: 'companyList',
+          component: companyList
+        }, {
+          path: '/:companyID',
+          name: 'detail',
+          component: detailPage
+        }
+
+      ]
     },
     // {
     //   path: '/about',

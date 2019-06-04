@@ -27,26 +27,25 @@ module.exports = {
                         endIndex,
                     } = req.query;
                     var data = new Array();
-                    if (sectionName == '' && modeName == '')
-                    {
-                        try{
+                    if (sectionName == '' && modeName == '') {
+                        try {
                             for (var i = parseInt(startIndex); i < parseInt(endIndex); i++) {
                                 data.push(companyDic[i]);
                             }
-                        }catch(err){
+                        } catch (err) {
                             console.log(err);
                         }
-                        
+
                     }
-                    if (sectionName != ''){
+                    if (sectionName != '') {
                         let tempData = companyDic.filter(c => c.sectionName == sectionName);
-                        for (let i =  parseInt(startIndex); i <  parseInt(endIndex); i++) {
+                        for (let i = parseInt(startIndex); i < parseInt(endIndex); i++) {
                             data.push(tempData[i]);
                         }
                     }
-                    if (modeName != ''){
+                    if (modeName != '') {
                         let tempData = companyDic.filter(c => c.modeName == modeName);
-                        for (let i =  parseInt(startIndex); i <  parseInt(endIndex); i++) {
+                        for (let i = parseInt(startIndex); i < parseInt(endIndex); i++) {
                             data.push(tempData[i]);
                         }
                     }
@@ -81,66 +80,64 @@ module.exports = {
                         Data: data,
                     })
                 })
+
                 //所在地
-                const sectionData = [
-                    {
+                const sectionData = [{
                         id: 1,
                         sectionName: '北京',
-                        path: '/beijing'
+                        path: 'beijing'
                     },
                     {
                         id: 2,
                         sectionName: '上海',
-                        path: '/shanghai'
+                        path: 'shanghai'
                     }, {
                         id: 3,
                         sectionName: '广州',
-                        path: '/guangzhou'
+                        path: 'guangzhou'
                     }, {
                         id: 4,
                         sectionName: '河南 郑州',
-                        path: '/shenzhen'
+                        path: 'shenzhen'
                     }, {
                         id: 5,
                         sectionName: '天津',
-                        path: '/tianjin'
+                        path: 'tianjin'
                     },
                     {
                         id: 6,
                         sectionName: '山东 济南',
-                        path: '/shandongJN'
+                        path: 'shandongJN'
                     },
                 ]
                 //经营模式
-                const modeData = [
-                    {
+                const modeData = [{
                         id: 1,
                         modeName: '全国总代理',
-                        path: '/qgzdl'
+                        path: 'qgzdl'
                     }, {
                         id: 2,
                         modeName: '地区代理',
-                        path: '/dqdl'
+                        path: 'dqdl'
                     },
                     {
                         id: 3,
                         modeName: '私人经营',
-                        path: '/srjy'
+                        path: 'srjy'
                     },
                     {
                         id: 4,
                         modeName: '经销商',
-                        path: '/jxs'
+                        path: 'jxs'
                     },
                     {
                         id: 5,
                         modeName: '生产厂家',
-                        path: '/sccj'
+                        path: 'sccj'
                     },
                 ]
                 //所有公司信息
-                const companyDic = [
-                    {
+                const companyDic = [{
                         id: 1,
                         companyName: '山东康迪医疗设备有限公司',
                         companyUrl: 'http://ssdsst.3618med.com',
@@ -148,7 +145,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/c5/87/xtmdhbbtuenwrdxfmsvsafdr_90x90_4.png',
                         modeName: '生产厂家',
                         sectionName: '山东 济南',
-                        path: '/ssdsst'
+                        path: 'ssdsst'
                     }, {
                         id: 2,
                         companyName: '上海美吉逾华生物医药科技有限公司',
@@ -157,7 +154,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/lt/4b/rxvpgevdmbjwfefearshplny_90x90_4.png',
                         modeName: '全国总代理',
                         sectionName: '上海',
-                        path: '/majorivd'
+                        path: 'majorivd'
                     }, {
                         id: 3,
                         companyName: '山东骏腾医疗科技有限公司',
@@ -166,7 +163,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/ab/y3/mnypgkfsbcmrqemgaqxhyclm_90x90_4.jpg',
                         modeName: '经销商',
                         sectionName: '山东 济南',
-                        path: '/jtkj'
+                        path: 'jtkj'
                     },
                     {
                         id: 4,
@@ -176,7 +173,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/w5/cr/uxcqnjytxvrehyjajvgsshxc_90x90_4.jpg',
                         modeName: '私人经营',
                         sectionName: '北京',
-                        path: '/cyttel'
+                        path: 'cyttel'
                     },
                     {
                         id: 5,
@@ -186,7 +183,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/ab/y3/mnypgkfsbcmrqemgaqxhyclm_90x90_4.jpg',
                         modeName: '地区代理',
                         sectionName: '广州',
-                        path: '/goldenimg'
+                        path: 'goldenimg'
                     },
                     {
                         id: 6,
@@ -196,7 +193,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/sh/wh/njdxbvvhwacmtymsnqhfmelg_90x90_4.png',
                         modeName: '经销商',
                         sectionName: '天津',
-                        path: '/jiashitang'
+                        path: 'jiashitang'
                     },
                     {
                         id: 7,
@@ -206,7 +203,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/qe/55/wshumvkfvauvhdfjntnjmlex_90x90_4.jpg',
                         modeName: '生产厂家',
                         sectionName: '河南 郑州',
-                        path: '/hyjt777'
+                        path: 'hyjt777'
                     },
                     {
                         id: 8,
@@ -216,8 +213,8 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/c5/87/xtmdhbbtuenwrdxfmsvsafdr_90x90_4.png',
                         modeName: '生产厂家',
                         sectionName: '山东 济南',
-                        path: '/ssdsst'
-                    },  {
+                        path: 'ssdsst'
+                    }, {
                         id: 10,
                         companyName: '山东骏腾医疗科技有限公司',
                         companyUrl: 'http://jtkj.3618med.com',
@@ -225,7 +222,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/ab/y3/mnypgkfsbcmrqemgaqxhyclm_90x90_4.jpg',
                         modeName: '经销商',
                         sectionName: '山东 济南',
-                        path: '/jtkj'
+                        path: 'jtkj'
                     },
                     {
                         id: 9,
@@ -235,7 +232,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/lt/4b/rxvpgevdmbjwfefearshplny_90x90_4.png',
                         modeName: '全国总代理',
                         sectionName: '上海',
-                        path: '/majorivd'
+                        path: 'majorivd'
                     },
                     {
                         id: 11,
@@ -245,7 +242,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/w5/cr/uxcqnjytxvrehyjajvgsshxc_90x90_4.jpg',
                         modeName: '私人经营',
                         sectionName: '北京',
-                        path: '/cyttel'
+                        path: 'cyttel'
                     },
                     {
                         id: 12,
@@ -255,7 +252,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/ab/y3/mnypgkfsbcmrqemgaqxhyclm_90x90_4.jpg',
                         modeName: '地区代理',
                         sectionName: '广州',
-                        path: '/goldenimg'
+                        path: 'goldenimg'
                     },
                     {
                         id: 13,
@@ -265,7 +262,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/sh/wh/njdxbvvhwacmtymsnqhfmelg_90x90_4.png',
                         modeName: '经销商',
                         sectionName: '天津',
-                        path: '/jiashitang'
+                        path: 'jiashitang'
                     },
                     {
                         id: 14,
@@ -275,7 +272,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/qe/55/wshumvkfvauvhdfjntnjmlex_90x90_4.jpg',
                         modeName: '生产厂家',
                         sectionName: '河南 郑州',
-                        path: '/hyjt777'
+                        path: 'hyjt777'
                     },
                     {
                         id: 15,
@@ -285,7 +282,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/c5/87/xtmdhbbtuenwrdxfmsvsafdr_90x90_4.png',
                         modeName: '生产厂家',
                         sectionName: '山东 济南',
-                        path: '/ssdsst'
+                        path: 'ssdsst'
                     }, {
                         id: 16,
                         companyName: '上海美吉逾华生物医药科技有限公司',
@@ -294,7 +291,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/lt/4b/rxvpgevdmbjwfefearshplny_90x90_4.png',
                         modeName: '全国总代理',
                         sectionName: '上海',
-                        path: '/majorivd'
+                        path: 'majorivd'
                     }, {
                         id: 17,
                         companyName: '山东骏腾医疗科技有限公司',
@@ -303,7 +300,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/ab/y3/mnypgkfsbcmrqemgaqxhyclm_90x90_4.jpg',
                         modeName: '经销商',
                         sectionName: '山东 济南',
-                        path: '/jtkj'
+                        path: 'jtkj'
                     },
                     {
                         id: 18,
@@ -313,7 +310,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/w5/cr/uxcqnjytxvrehyjajvgsshxc_90x90_4.jpg',
                         modeName: '私人经营',
                         sectionName: '北京',
-                        path: '/cyttel'
+                        path: 'cyttel'
                     },
                     {
                         id: 19,
@@ -323,7 +320,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/ab/y3/mnypgkfsbcmrqemgaqxhyclm_90x90_4.jpg',
                         modeName: '地区代理',
                         sectionName: '广州',
-                        path: '/goldenimg'
+                        path: 'goldenimg'
                     },
                     {
                         id: 20,
@@ -333,7 +330,7 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/sh/wh/njdxbvvhwacmtymsnqhfmelg_90x90_4.png',
                         modeName: '经销商',
                         sectionName: '天津',
-                        path: '/jiashitang'
+                        path: 'jiashitang'
                     },
                     {
                         id: 21,
@@ -343,13 +340,13 @@ module.exports = {
                         companyImgUrl: 'http://static.3618med.com/resources/qe/55/wshumvkfvauvhdfjntnjmlex_90x90_4.jpg',
                         modeName: '生产厂家',
                         sectionName: '河南 郑州',
-                        path: '/hyjt777'
+                        path: 'hyjt777'
                     },
 
                 ]
 
             }
         }
-        
+
     }
 }

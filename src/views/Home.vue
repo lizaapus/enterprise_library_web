@@ -1,20 +1,11 @@
 <template>
-  <div class="home">
-    <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <div class="headerC">
-      <p>企业信息库</p>
+  <div class="centerC">
+    <div class="navC">
+      <navleft></navleft>
     </div>
-    <div class="centerC">
-      <div class="navC">
-        <navleft></navleft>
-      </div>
-      <div class="comC">
-        <companyList></companyList>
-      </div>
+    <div class="comC">
+      <router-view></router-view>
     </div>
-
-    <footer class="footerC"></footer>
   </div>
 </template>
 
@@ -33,32 +24,23 @@ export default {
 };
 </script>
 <style>
-.headerC {
-  float: left;
-  width: 100%;
-  height: 10%;
-}
 .centerC {
-  float: left;
+  margin-top: 20px;
   width: 100%;
-  height: 80%;
+  height: 100%;
+  float: left;
 }
 .navC {
   float: left;
   height: 100%;
-  width: 20%;
+  width: 10%;
+  margin-left: 5%;
 }
 .comC {
   float: left;
+  min-height: 670px;
   height: 100%;
-  width: 60%;
-}
-.footerC {
-  float: left;
-  background-color: gray;
-  height: 10%;
-  width: 100%;
-  background-color: black;
+  width: 70%;
 }
 </style>
 
