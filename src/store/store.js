@@ -37,10 +37,10 @@ export default new Vuex.Store({
           state.selectedSection = '';
           state.selectedMode = '';
         } else {
+
           if (state.modeList.length == 0) {
             this.commit('setModeList', data.ref);
             this.commit('setSectionList', data.ref);
-
           }
           let tempArray = state.modeList.filter(mode => mode.path == path);
 
@@ -53,10 +53,28 @@ export default new Vuex.Store({
             state.selectedMode = '';
           }
         }
+
         this.commit('setData', data.ref);
 
       } catch (err) {
         alert(err);
+      }
+    },
+
+    setSectionlist(state, data) {
+      if (state.modeList.length == 0) {
+        this.commit('setModeList', data.ref);
+        this.commit('setSectionList', data.ref);
+      }
+      let tempArray = state.modeList.filter(mode => mode.modeName == path);
+
+      if (tempArray.length > 0) {
+        state.selectedSection = '';
+        state.selectedMode = tempArray[0].modeName;
+      } else {
+        tempArray = state.sectionList.filter(section => section.sectionName == path);
+        state.selectedSection = tempArray[0].sectionName;
+        state.selectedMode = '';
       }
     },
 
@@ -97,6 +115,19 @@ export default new Vuex.Store({
       });
       state.companyList = result.Data;
     },
+    async setData2(state, ref) {
+      const result = await ref.$http.get("/api/getCompanyList", {
+        params: {
+          sectionName: state.selectedSection,
+          modeName: state.selectedMode,
+          startIndex: state.startIndex,
+          endIndex: state.endIndex,
+        }
+      });
+      state.companyList = result.Data;
+    },
+
+
     //改变pagesize
     async handleSizeChange(state, data) {
       //alert(data.val);

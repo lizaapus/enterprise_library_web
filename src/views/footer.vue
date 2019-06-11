@@ -24,7 +24,7 @@ export default {
   padding-right: 0px;
   padding-left: 0px;
   float: left;
-  background-color: black;
+  background-color: #409eff;
   color: white;
 }
 </style>

@@ -41,7 +41,7 @@ export default {
   float: left;
   font-size: 24px;
   font-weight: bolder;
-  background-color: black;
+  background-color: #409eff;
   color: white;
 }
 .centerC {
@@ -58,7 +58,7 @@ export default {
   height: 10%;
   width: 100%;
   text-align: center;
-  background-color: black;
+  background-color: #409eff;
   color: white;
 }
 </style>

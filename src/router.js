@@ -17,7 +17,7 @@ export default new Router({
           component: companyList
         },
         {
-          path: '/:sectionID',
+          path: '/',
           name: 'companyList',
           component: companyList
         }, {
@@ -25,7 +25,6 @@ export default new Router({
           name: 'detail',
           component: detailPage
         }
-
       ]
     },
     // {

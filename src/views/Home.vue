@@ -4,6 +4,7 @@
       <navleft></navleft>
     </div>
     <div class="comC">
+      <searchDiv></searchDiv>
       <router-view></router-view>
     </div>
   </div>
@@ -11,15 +12,15 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+//import HelloWorld from "@/components/HelloWorld.vue";
 import navleft from "@/views/nav.vue";
-import companyList from "@/views/companyList.vue";
+import searchDiv from "@/views/search.vue";
+//import companyList from "@/views/companyList.vue";
 export default {
   name: "home",
   components: {
-    HelloWorld,
     navleft,
-    companyList
+    searchDiv
   }
 };
 </script>

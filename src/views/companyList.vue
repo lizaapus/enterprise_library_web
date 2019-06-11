@@ -14,7 +14,7 @@
       <table class="contentTable">
         <td>
           <tr v-for="item in $store.state.companyList">
-            <div class="companyItemDiv" @click="detailPage(item)">
+            <div class="companyItemDiv" @dblclick="detailPage(item)">
               <div class="imgC">
                 <a :href="item.companyUrl" target="_blank">
                   <img :src="item.companyImgUrl">
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { truncate } from "fs";
 export default {
   data() {
     return {
@@ -63,11 +64,42 @@ export default {
   },
   async created() {
     try {
-      // alert(this.$route.path);
-      this.$store.commit("setCompanyList", {
-        path: this.$route.path,
-        ref: this
-      });
+      //进入页面判断是否存在缓存
+      var sessionObj = sessionStorage.getItem("queryParmas");
+      if (sessionObj) {
+        //alert(this.$store.state.selectedSection);
+        var queryParmas = JSON.parse(sessionObj);
+        this.$store.state.selectedSection = queryParmas.sectionName;
+        this.$store.state.selectedMode = queryParmas.modeName;
+        this.$store.state.startIndex = parseInt(queryParmas.startIndex);
+        this.$store.state.endIndex = parseInt(queryParmas.endIndex);
+        this.$store.state.currentPage = parseInt(queryParmas.currentPage);
+        this.$store.state.totalItemNum = parseInt(queryParmas.totalItemNum);
+        this.$store.state.pageSize = parseInt(queryParmas.pageSize);
+        this.$store.commit("setData2", this);
+      } else {
+        if (
+          this.$store.state.selectedSection == "" &&
+          this.$store.state.selectedMode == ""
+        ) {
+          this.$store.commit("setCompanyList", {
+            path: this.$route.path,
+            ref: this
+          });
+        } else {
+          this.$store.commit("setData2", this);
+        }
+      }
+      var queryParmas = {
+        sectionName: this.$store.state.selectedSection,
+        modeName: this.$store.state.selectedMode,
+        startIndex: this.$store.state.startIndex,
+        endIndex: this.$store.state.endIndex,
+        currentPage: this.$store.state.currentPage,
+        totalItemNum: this.$store.state.totalItemNum,
+        pageSize: this.$store.state.pageSize
+      };
+      sessionStorage.queryParmas = JSON.stringify(queryParmas);
     } catch (e) {
       console.log(e);
     }
@@ -82,12 +114,43 @@ export default {
         path: this.$route.path,
         ref: this
       });
+
+      var queryParmas = {
+        sectionName: "",
+        modeName: "",
+        startIndex: this.$store.state.startIndex,
+        endIndex: this.$store.state.endIndex,
+        currentPage: this.$store.state.currentPage,
+        totalItemNum: this.$store.state.totalItemNum,
+        pageSize: this.$store.state.pageSize
+      };
+      sessionStorage.queryParmas = JSON.stringify(queryParmas);
     },
     handleSizeChange(val) {
       this.$store.commit("handleSizeChange", { val: val, ref: this });
+      var queryParmas = {
+        sectionName: this.$store.state.selectedSection,
+        modeName: this.$store.state.selectedMode,
+        startIndex: this.$store.state.startIndex,
+        endIndex: this.$store.state.endIndex,
+        currentPage: this.$store.state.currentPage,
+        totalItemNum: this.$store.state.totalItemNum,
+        pageSize: this.$store.state.pageSize
+      };
+      sessionStorage.queryParmas = JSON.stringify(queryParmas);
     },
     handleCurrentChange(val) {
       this.$store.commit("handleCurrentChange", { val: val, ref: this });
+      var queryParmas = {
+        sectionName: this.$store.state.selectedSection,
+        modeName: this.$store.state.selectedMode,
+        startIndex: this.$store.state.startIndex,
+        endIndex: this.$store.state.endIndex,
+        currentPage: this.$store.state.currentPage,
+        totalItemNum: this.$store.state.totalItemNum,
+        pageSize: this.$store.state.pageSize
+      };
+      sessionStorage.queryParmas = JSON.stringify(queryParmas);
     },
     detailPage(item) {
       this.$store.commit("setSelectedItem", item);
@@ -97,6 +160,16 @@ export default {
           companyID: item.path
         }
       });
+      var queryParmas = {
+        sectionName: this.$store.state.selectedSection,
+        modeName: this.$store.state.selectedMode,
+        startIndex: this.$store.state.startIndex,
+        endIndex: this.$store.state.endIndex,
+        currentPage: this.$store.state.currentPage,
+        totalItemNum: this.$store.state.totalItemNum,
+        pageSize: this.$store.state.pageSize
+      };
+      sessionStorage.queryParmas = JSON.stringify(queryParmas);
     }
   }
 };
@@ -106,8 +179,6 @@ export default {
   width: 100%;
   height: 100%;
   margin-left: 50px;
-}
-.contentTable {
 }
 .block {
   flood-opacity: 0%;

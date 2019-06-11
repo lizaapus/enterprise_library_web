@@ -1,7 +1,7 @@
 <template>
   <div class="nav-left">
     <el-collapse v-model="activeNames" @change="handleChange" class="collapse">
-      <el-collapse-item title="所在地" name="1">
+      <el-collapse-item title="所在地" name="1" class="itemBck">
         <el-row>
           <el-col :span="24">
             <div>
@@ -14,25 +14,10 @@
                 <el-table-column prop="sectionName"></el-table-column>
               </el-table>
             </div>
-            <!-- <div class="sectionDiv">
-              <ul>
-                <li v-for="section in $store.state.sectionList">
-                  <div class="sectionDiv" @click="setSectionCompanyList(section)">
-                    <span v-text="section.sectionName"></span>
-                  </div>
-                  <router-link
-                    :to="{name:'compantList',params:{path:section.path,sectionName:section.sectionName}}"
-                    class="linkStyle"
-                  >
-                    
-                  </router-link>
-                </li>
-              </ul>
-            </div>-->
           </el-col>
         </el-row>
       </el-collapse-item>
-      <el-collapse-item title="经营方式" name="2">
+      <el-collapse-item title="经营方式" name="2" class="itemBck">
         <el-row>
           <el-col :span="24">
             <div>
@@ -92,6 +77,16 @@ export default {
         name: "companyList",
         params: { sectionID: row.path }
       });
+      var queryParmas = {
+        sectionName: this.$store.state.selectedSection,
+        modeName: this.$store.state.selectedMode,
+        startIndex: this.$store.state.startIndex,
+        endIndex: this.$store.state.endIndex,
+        currentPage: this.$store.state.currentPage,
+        totalItemNum: this.$store.state.totalItemNum,
+        pageSize: this.$store.state.pageSize
+      };
+      sessionStorage.queryParmas = JSON.stringify(queryParmas);
     },
     setModeCompanyList(row, event, column) {
       this.$store.commit("setCompanyModeList", {
@@ -102,6 +97,16 @@ export default {
         name: "companyList",
         params: { sectionID: row.path }
       });
+      var queryParmas = {
+        sectionName: this.$store.state.selectedSection,
+        modeName: this.$store.state.selectedMode,
+        startIndex: this.$store.state.startIndex,
+        endIndex: this.$store.state.endIndex,
+        currentPage: this.$store.state.currentPage,
+        totalItemNum: this.$store.state.totalItemNum,
+        pageSize: this.$store.state.pageSize
+      };
+      sessionStorage.queryParmas = JSON.stringify(queryParmas);
     }
   },
   async created() {
@@ -135,5 +140,8 @@ export default {
   border-bottom-color: bisque;
   padding: 10px;
   float: left;
+}
+.itemBck {
+  background-color: red;
 }
 </style>
