@@ -27,13 +27,13 @@ export default {
 
 <style scoped>
 #app {
+  margin: 0px;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   height: 100%;
-  width: 100%;
 }
 .headerC {
   height: 10%;
@@ -41,12 +41,11 @@ export default {
   float: left;
   font-size: 24px;
   font-weight: bolder;
-  background-color: #409eff;
+  background-color: darkgreen;
   color: white;
 }
 .centerC {
   float: left;
-  width: 100%;
   height: 80%;
   text-align: center;
 }
@@ -56,9 +55,8 @@ export default {
 }
 .footerC {
   height: 10%;
-  width: 100%;
   text-align: center;
-  background-color: #409eff;
+  background-color: darkgreen;
   color: white;
 }
 </style>

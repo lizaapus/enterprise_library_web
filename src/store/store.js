@@ -19,7 +19,8 @@ export default new Vuex.Store({
     currentPage: 1,
     startIndex: 0,
     endIndex: 0,
-    selectedItem: {}
+    selectedItem: {},
+    searchDic: new Array()
   },
   mutations: {
     async setSectionList(state, ref) {
@@ -29,6 +30,13 @@ export default new Vuex.Store({
     async setModeList(state, ref) {
       const result = await ref.$http.get('/api/modeData');
       state.modeList = result.Data;
+    },
+    addSearchDic(state, data) {
+      this.searchDic[data.key] = data.value;
+    },
+    delSearchDic(state, data) {
+      let item = this.searchDic.filter(v => v.value == data);
+      delete this.searchDic[item.key];
     },
     async setCompanyList(state, data) {
       try {
@@ -53,9 +61,7 @@ export default new Vuex.Store({
             state.selectedMode = '';
           }
         }
-
         this.commit('setData', data.ref);
-
       } catch (err) {
         alert(err);
       }

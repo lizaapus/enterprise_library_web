@@ -30,24 +30,6 @@
                 <el-table-column prop="modeName"></el-table-column>
               </el-table>
             </div>
-
-            <!-- <div class="sectionModeDiv">
-              <ul>
-                <li v-for="mode in $store.state.modeList">
-                  <div class="sectionDiv" @click="setModeCompanyList(mode)">
-                    <span v-text="mode.modeName"></span>
-                  </div>
-                  <router-link
-                    :to="{name:'modeList',params:{path:mode.path,modeName:mode.modeName}}"
-                    class="linkStyle"
-                  >
-                    <div class="sectionDiv" @click="setModeCompanyList(mode)">
-                      <span v-text="mode.modeName"></span>
-                    </div>
-                  </router-link>
-                </li>
-              </ul>
-            </div>-->
           </el-col>
         </el-row>
       </el-collapse-item>
@@ -125,7 +107,6 @@ export default {
   height: 100%;
   width: 100%;
   float: left;
-  background-color: yellow;
   /* background-color: rgb(191, 216, 218); */
   color: black;
 }

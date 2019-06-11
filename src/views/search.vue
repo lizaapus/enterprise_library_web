@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="searchDiv">
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="审批人">
         <el-input placeholder="审批人"></el-input>
@@ -11,7 +11,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">查询</el-button>
+        <el-button type="success" @click="onSubmit">查询</el-button>
       </el-form-item>
       <div class="tag-group">
         <el-tag
@@ -21,10 +21,11 @@
           :disable-transitions="false"
           @close="handleClose(tag)"
           effect="dark"
-          color="#5cADA4"
+          color="#67C23A"
         >{{tag}}</el-tag>
       </div>
     </el-form>
+    <hr style="color:darkgrey">
   </div>
 </template>
 
@@ -46,10 +47,15 @@ export default {
 </script>
 
 <style scoped>
-#el-tag {
-  margin: 20px;
+.searchDiv {
+  width: 70%;
+  text-align: left;
 }
-.tag-group el-tag {
-  padding: 20px;
+.tag-group {
+  text-align: left;
+}
+.tag-group span {
+  box-sizing: border-box;
+  margin-left: 20px;
 }
 </style>

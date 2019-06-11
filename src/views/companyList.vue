@@ -11,46 +11,84 @@
       </el-breadcrumb>
     </div>
     <div>
-      <table class="contentTable">
+      <table>
         <td>
-          <tr v-for="item in $store.state.companyList">
+          <tr class="trC" v-for="item in $store.state.companyList">
             <div class="companyItemDiv" @dblclick="detailPage(item)">
               <div class="imgC">
                 <a :href="item.companyUrl" target="_blank">
                   <img :src="item.companyImgUrl">
                 </a>
               </div>
-              <div class="detailC">
-                <p>
+              <div class="detaiC">
+                <p class="detail1C">
                   <a :href="item.companyUrl" v-text="item.companyName" target="_blank"></a>
                 </p>
-                <p>
-                  经营方式：
-                  <span v-text="item.modeName"></span>
-                </p>
-                <p>
-                  所在地：
-                  <span v-text="item.sectionName"></span>
+
+                <p class="detail2C" v-text="item.conpanyDescribe"></p>
+                <p class="detail3C">
+                  <span class="detail4c">
+                    经营方式：
+                    <span v-text="item.modeName"></span>
+                  </span>
+                  <span class="detail4c">
+                    所在地：
+                    <span v-text="item.sectionName"></span>
+                  </span>
                 </p>
               </div>
-              <!-- <span v-text="item.companyName"></span> -->
+              <!-- <div class="productListC">
+                <div class="productC">
+                  <p>
+                    <a>
+                      <img class="imgP" :src="item.companyImgUrl">
+                    </a>
+                  </p>
+                  <p class="imgP2">产品1</p>
+                </div>
+                <div class="productC">
+                  <p>
+                    <a>
+                      <img class="imgP" :src="item.companyImgUrl">
+                    </a>
+                  </p>
+                  <p class="imgP2">产品2</p>
+                </div>
+                <div class="productC">
+                  <p>
+                    <a>
+                      <img class="imgP" :src="item.companyImgUrl">
+                    </a>
+                  </p>
+                  <p class="imgP2">产品3</p>
+                </div>
+                <div class="productC">
+                  <p>
+                    <a>
+                      <img class="imgP" :src="item.companyImgUrl">
+                    </a>
+                  </p>
+                  <p class="imgP2">产品4</p>
+                </div>
+              </div>-->
             </div>
           </tr>
         </td>
       </table>
     </div>
-
-    <footer>
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="$store.state.currentPage"
-        :page-sizes="$store.state.pageSizes"
-        :page-size="$store.state.pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="$store.state.totalItemNum"
-      ></el-pagination>
-    </footer>
+    <div>
+      <footer>
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="$store.state.currentPage"
+          :page-sizes="$store.state.pageSizes"
+          :page-size="$store.state.pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="$store.state.totalItemNum"
+        ></el-pagination>
+      </footer>
+    </div>
   </div>
 </template>
 
@@ -176,22 +214,100 @@ export default {
 </script>
 <style scoped>
 .mainDiv {
-  width: 100%;
+  width: inherit;
+  text-align: left;
   height: 100%;
-  margin-left: 50px;
+  padding-left: 40px;
 }
-.block {
-  flood-opacity: 0%;
-  margin-bottom: 30px;
-  /* height: 1000px;
-  float: left;
-  vertical-align: bottom; */
+.companyItemDiv {
+  margin-top: 10px;
+  width: inherit;
+}
+.trC {
+  margin-top: 10px;
+  height: 120px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .imgC {
   float: left;
+  width: 100px;
+  height: 100px;
+  border: 1px solid darkgray;
+  margin-bottom: 10px;
+  margin-right: 10px;
 }
-.detailC {
+.detaiC {
+  margin-left: 10px;
   float: left;
+  width: 80%;
+}
+.detaiC p {
+  margin-bottom: 3px;
+}
+.detail1C {
+  height: 21px;
+  font-size: 18px;
+  margin-top: 0px;
+}
+.detail2C {
+  height: 40px;
+  font-size: 16px;
+  margin-top: 0px;
+  color: gray;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.detail3C {
+  height: 15px;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: left;
+}
+.detail4c {
+  border: 1px grey solid;
+  margin-right: 40px;
+  padding: 2px;
+}
+.productC {
+  float: left;
+  height: 110px;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.productC ul {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+.productC li {
+  float: left;
+  list-style: none;
+}
+
+.imgP {
+  border: 1px grey solid;
+  margin-top: -15px;
+  margin-left: 10px;
+  float: left;
+  width: 70px;
+  height: 70px;
+}
+.imgP2 {
+  margin-top: -10px;
+  margin-left: 30px;
+  font-size: 14px;
+}
+
+.footer {
+  text-align: left;
+  padding-left: 30px;
 }
 </style>
 

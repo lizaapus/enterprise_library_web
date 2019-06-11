@@ -4,8 +4,8 @@
       <navleft></navleft>
     </div>
     <div class="comC">
-      <searchDiv></searchDiv>
-      <router-view></router-view>
+      <searchDiv class="searchC"></searchDiv>
+      <router-view class="listC"></router-view>
     </div>
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
 </script>
 <style>
 .centerC {
-  margin-top: 20px;
+  margin-top: 10px;
   width: 100%;
   height: 100%;
   float: left;
@@ -34,14 +34,26 @@ export default {
 .navC {
   float: left;
   height: 100%;
-  width: 10%;
-  margin-left: 5%;
+  width: 15%;
+  margin-left: 15%;
 }
 .comC {
   float: left;
   min-height: 670px;
+  margin-left: 0px;
+  margin-right: 0px;
   height: 100%;
   width: 70%;
+}
+.searchC {
+  float: left;
+  margin-left: 0px;
+  width: inherit;
+}
+.listC {
+  float: left;
+  margin-left: 0px;
+  width: inherit;
 }
 </style>
 
