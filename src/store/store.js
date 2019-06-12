@@ -11,16 +11,18 @@ export default new Vuex.Store({
     modeList: new Array(),
     sectionList: new Array(),
     companyList: new Array(),
+    companyName: '',
     selectedSection: '',
     selectedMode: '',
+    selectedItem: {},
+    searchDic: new Array(), //查询条件
     pageSizes: [5, 10, 15, 20],
     pageSize: 5,
     totalItemNum: 0,
     currentPage: 1,
     startIndex: 0,
     endIndex: 0,
-    selectedItem: {},
-    searchDic: new Array()
+
   },
   mutations: {
     async setSectionList(state, ref) {
@@ -31,13 +33,43 @@ export default new Vuex.Store({
       const result = await ref.$http.get('/api/modeData');
       state.modeList = result.Data;
     },
+
     addSearchDic(state, data) {
-      this.searchDic[data.key] = data.value;
+      let flag = false;
+      for (var key in state.searchDic) {
+        if (state.searchDic[key].name == data.key) {
+          state.searchDic[key].value = data.value;
+          flag = true;
+          break;
+        }
+      }
+      if (!flag)
+        state.searchDic.push({
+          name: data.key,
+          value: data.value
+        });
+      //重新检索数据
+      //this.state.commit('')
     },
     delSearchDic(state, data) {
-      let item = this.searchDic.filter(v => v.value == data);
-      delete this.searchDic[item.key];
+      let index = 0;
+      //alert(data.data.name);
+      for (var key in state.searchDic) {
+        if (state.searchDic[key].name == data.data.name) {
+          break;
+        }
+        index++;
+      }
+
+      if (data.data.name == 'modeName')
+        state.selectedMode = '';
+      if (data.data.name == 'sectionName')
+        state.selectedSection = '';
+      state.searchDic.splice(index, 1);
+      //重新检索数据
+      this.commit('setData', data.ref);
     },
+
     async setCompanyList(state, data) {
       try {
         let path = data.path.replace("/", "");;
@@ -45,7 +77,6 @@ export default new Vuex.Store({
           state.selectedSection = '';
           state.selectedMode = '';
         } else {
-
           if (state.modeList.length == 0) {
             this.commit('setModeList', data.ref);
             this.commit('setSectionList', data.ref);
@@ -90,31 +121,35 @@ export default new Vuex.Store({
 
     async setCompanySectionList(state, data) {
       state.selectedSection = data.sectionName;
-      state.selectedMode = '';
+      //state.selectedMode = '';
       this.commit('setData', data.ref);
     },
     setCompanyModeList(state, data) {
-      state.selectedSection = '';
+      //state.selectedSection = '';
       state.selectedMode = data.modeName;
       this.commit('setData', data.ref);
     },
 
     async setData(state, ref) {
+      //alert("enter");
       const numb = await ref.$http.get('/api/getCompanyListTotalNumb', {
         params: {
           sectionName: state.selectedSection,
           modeName: state.selectedMode,
+          companyName: state.companyName,
         }
       });
+      // alert('state.selectedSection:' + state.selectedSection);
+      // alert('state.selectedMode:' + state.selectedMode);
       state.totalItemNum = numb.length;
       state.currentPage = 1;
       state.startIndex = 0;
       state.endIndex = state.totalItemNum < state.pageSize ? state.totalItemNum : state.pageSize;
-
       const result = await ref.$http.get("/api/getCompanyList", {
         params: {
           sectionName: state.selectedSection,
           modeName: state.selectedMode,
+          companyName: state.companyName,
           startIndex: state.startIndex,
           endIndex: state.endIndex,
         }
@@ -126,6 +161,7 @@ export default new Vuex.Store({
         params: {
           sectionName: state.selectedSection,
           modeName: state.selectedMode,
+          companyName: '',
           startIndex: state.startIndex,
           endIndex: state.endIndex,
         }
@@ -140,11 +176,11 @@ export default new Vuex.Store({
       state.pageSize = data.val;
       state.startIndex = (state.currentPage - 1) * state.pageSize;
       state.endIndex = state.currentPage * state.pageSize;
-
       const result = await data.ref.$http.get("/api/getCompanyList", {
         params: {
           sectionName: state.selectedSection,
           modeName: state.selectedMode,
+          companyName: state.companyName,
           startIndex: state.startIndex,
           endIndex: state.endIndex
         }
@@ -167,6 +203,7 @@ export default new Vuex.Store({
         params: {
           sectionName: state.selectedSection,
           modeName: state.selectedMode,
+          companyName: state.companyName,
           startIndex: state.startIndex,
           endIndex: state.endIndex
         }

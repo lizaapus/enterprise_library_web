@@ -1,15 +1,5 @@
 <template>
   <div class="mainDiv">
-    <div class="Breadcrumb">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">
-          <span @click="setCompanyList">首页</span>
-        </el-breadcrumb-item>
-        <el-breadcrumb-item>
-          <span v-text="$store.state.selectedSection+$store.state.selectedMode"></span>
-        </el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
     <div>
       <table>
         <td>
@@ -37,40 +27,6 @@
                   </span>
                 </p>
               </div>
-              <!-- <div class="productListC">
-                <div class="productC">
-                  <p>
-                    <a>
-                      <img class="imgP" :src="item.companyImgUrl">
-                    </a>
-                  </p>
-                  <p class="imgP2">产品1</p>
-                </div>
-                <div class="productC">
-                  <p>
-                    <a>
-                      <img class="imgP" :src="item.companyImgUrl">
-                    </a>
-                  </p>
-                  <p class="imgP2">产品2</p>
-                </div>
-                <div class="productC">
-                  <p>
-                    <a>
-                      <img class="imgP" :src="item.companyImgUrl">
-                    </a>
-                  </p>
-                  <p class="imgP2">产品3</p>
-                </div>
-                <div class="productC">
-                  <p>
-                    <a>
-                      <img class="imgP" :src="item.companyImgUrl">
-                    </a>
-                  </p>
-                  <p class="imgP2">产品4</p>
-                </div>
-              </div>-->
             </div>
           </tr>
         </td>
@@ -251,9 +207,9 @@ export default {
   margin-top: 0px;
 }
 .detail2C {
-  height: 40px;
-  font-size: 16px;
-  margin-top: 0px;
+  height: 40 px;
+  font-size: 15px;
+  margin-top: 2px;
   color: gray;
   display: -webkit-box;
   overflow: hidden;

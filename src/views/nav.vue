@@ -55,10 +55,18 @@ export default {
         ref: this
       });
 
+      this.$store.commit("addSearchDic", {
+        key: "sectionName",
+        value: row.sectionName
+      });
       this.$router.push({
-        name: "companyList",
+        name: "home",
         params: { sectionID: row.path }
       });
+      // this.$router.push({
+      //   name: "companyList",
+      //   params: { sectionID: row.path }
+      // });
       var queryParmas = {
         sectionName: this.$store.state.selectedSection,
         modeName: this.$store.state.selectedMode,
@@ -75,10 +83,18 @@ export default {
         modeName: row.modeName,
         ref: this
       });
+      this.$store.commit("addSearchDic", {
+        key: "modeName",
+        value: row.modeName
+      });
       this.$router.push({
-        name: "companyList",
+        name: "home",
         params: { sectionID: row.path }
       });
+      // this.$router.push({
+      //   name: "companyList",
+      //   params: { sectionID: row.path }
+      // });
       var queryParmas = {
         sectionName: this.$store.state.selectedSection,
         modeName: this.$store.state.selectedMode,
