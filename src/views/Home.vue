@@ -81,10 +81,13 @@ export default {
       //进入页面判断是否存在缓存
       var sessionObj = sessionStorage.getItem("queryParmas");
       if (sessionObj) {
-        //alert(this.$store.state.selectedSection);
         var queryParmas = JSON.parse(sessionObj);
+        // alert(parseInt(queryParmas.startIndex));
+        // alert(parseInt(queryParmas.endIndex));
         this.$store.state.selectedSection = queryParmas.sectionName;
         this.$store.state.selectedMode = queryParmas.modeName;
+        this.$store.state.companyName = queryParmas.companyName;
+        this.$store.state.searchDic = JSON.parse(queryParmas.searchDic);
         this.$store.state.startIndex = parseInt(queryParmas.startIndex);
         this.$store.state.endIndex = parseInt(queryParmas.endIndex);
         this.$store.state.currentPage = parseInt(queryParmas.currentPage);
@@ -94,7 +97,8 @@ export default {
       } else {
         if (
           this.$store.state.selectedSection == "" &&
-          this.$store.state.selectedMode == ""
+          this.$store.state.selectedMode == "" &&
+          this.$store.state.companyName == ""
         ) {
           this.$store.commit("setCompanyList", {
             path: this.$route.path,
@@ -107,6 +111,8 @@ export default {
       var queryParmas = {
         sectionName: this.$store.state.selectedSection,
         modeName: this.$store.state.selectedMode,
+        companyName: this.$store.state.companyName,
+        searchDic: JSON.stringify(this.$store.state.searchDic),
         startIndex: this.$store.state.startIndex,
         endIndex: this.$store.state.endIndex,
         currentPage: this.$store.state.currentPage,
@@ -128,10 +134,11 @@ export default {
         path: this.$route.path,
         ref: this
       });
-
       var queryParmas = {
         sectionName: "",
         modeName: "",
+        companyName: this.$store.state.companyName,
+        searchDic: JSON.stringify(this.$store.state.searchDic),
         startIndex: this.$store.state.startIndex,
         endIndex: this.$store.state.endIndex,
         currentPage: this.$store.state.currentPage,
@@ -145,6 +152,8 @@ export default {
       var queryParmas = {
         sectionName: this.$store.state.selectedSection,
         modeName: this.$store.state.selectedMode,
+        companyName: this.$store.state.companyName,
+        searchDic: JSON.stringify(this.$store.state.searchDic),
         startIndex: this.$store.state.startIndex,
         endIndex: this.$store.state.endIndex,
         currentPage: this.$store.state.currentPage,
@@ -158,6 +167,8 @@ export default {
       var queryParmas = {
         sectionName: this.$store.state.selectedSection,
         modeName: this.$store.state.selectedMode,
+        companyName: this.$store.state.companyName,
+        searchDic: JSON.stringify(this.$store.state.searchDic),
         startIndex: this.$store.state.startIndex,
         endIndex: this.$store.state.endIndex,
         currentPage: this.$store.state.currentPage,
@@ -177,6 +188,8 @@ export default {
       var queryParmas = {
         sectionName: this.$store.state.selectedSection,
         modeName: this.$store.state.selectedMode,
+        companyName: this.$store.state.companyName,
+        searchDic: JSON.stringify(this.$store.state.searchDic),
         startIndex: this.$store.state.startIndex,
         endIndex: this.$store.state.endIndex,
         currentPage: this.$store.state.currentPage,

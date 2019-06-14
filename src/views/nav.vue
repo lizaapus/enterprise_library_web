@@ -70,6 +70,8 @@ export default {
       var queryParmas = {
         sectionName: this.$store.state.selectedSection,
         modeName: this.$store.state.selectedMode,
+        companyName: this.$store.state.companyName,
+        searchDic: JSON.stringify(this.$store.state.searchDic),
         startIndex: this.$store.state.startIndex,
         endIndex: this.$store.state.endIndex,
         currentPage: this.$store.state.currentPage,
@@ -98,6 +100,8 @@ export default {
       var queryParmas = {
         sectionName: this.$store.state.selectedSection,
         modeName: this.$store.state.selectedMode,
+        companyName: this.$store.state.companyName,
+        searchDic: JSON.stringify(this.$store.state.searchDic),
         startIndex: this.$store.state.startIndex,
         endIndex: this.$store.state.endIndex,
         currentPage: this.$store.state.currentPage,

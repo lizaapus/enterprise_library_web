@@ -61,22 +61,22 @@
         </div>
         <h4>主营产品</h4>
         <div class="carousel">
-          <el-carousel :interval="5000" arrow="always">
-            <el-carousel-item v-for="item in $store.state.selectedItem.products" :key="item">
-              <div>
-                <img :src="item.imgurl" :alt="item.title">
-                <h5>{{ item.title }}</h5>
-              </div>
-            </el-carousel-item>
-          </el-carousel>
-          <!-- <el-carousel :interval="4000" type="card" height="200px">
-            <el-carousel-item v-for="item in $store.state.selectedItem.products" :key="item">
-              <div class="medium">
-                <img :src="item.imgurl" :alt="item.title">
-                <h5>{{ item.title }}</h5>
-              </div>
-            </el-carousel-item>
-          </el-carousel>-->
+          <div class="image__lazy">
+            <table>
+              <ul>
+                <li v-for="item in $store.state.selectedItem.products">
+                  <div class="wrap">
+                    <a>
+                      <el-image :key="item.imgurl" :src="item.imgurl" :fit="fill" alt lazy></el-image>
+                      <p>
+                        <b v-text="item.title"></b>
+                      </p>
+                    </a>
+                  </div>
+                </li>
+              </ul>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -86,21 +86,21 @@
 export default {
   data() {
     return {
-      isShowSection: false,
-      companyName: ""
+      //isShowSection: false//面包屑
     };
   },
   mounted: function() {
-    if (
-      this.$store.state.selectedSection + this.$store.state.selectedMode ==
-      ""
-    ) {
-      this.isShowSection = false;
-    } else this.isShowSection = true;
-    let compy = this.$store.state.companyList.filter(
-      item => item.path == this.$route.params.companyID
-    )[0];
-    this.companyName = compy.companyName;
+    //面包屑
+    // if (
+    //   this.$store.state.selectedSection + this.$store.state.selectedMode ==
+    //   ""
+    // ) {
+    //   this.isShowSection = false;
+    // } else this.isShowSection = true;
+    // let compy = this.$store.state.companyList.filter(
+    //   item => item.path == this.$route.params.companyID
+    // )[0];
+    // this.companyName = compy.companyName;
   },
   methods: {
     setCompanyList() {
@@ -155,36 +155,75 @@ h2 {
 }
 .carousel {
   text-align: center;
+  margin-bottom: 40px;
 }
-.carousel img {
-  padding-top: 30px;
+
+.image__lazy {
+  height: 360px;
+  overflow: auto;
+  display: block;
 }
-.el-carousel__item div {
-  display: box;
-  box-align: center;
-  box-orient: vertical;
-  color: #475669;
-  font-size: 18px;
-  opacity: 0.75;
-  line-height: 300px;
+.image__lazy li {
+  list-style: none;
+  float: left;
+  margin-right: 10px;
+}
+
+.wrap {
+  width: 220px;
+  height: 330px;
+  position: relative;
+  overflow: hidden;
+  font-family: arial, sans-serif;
+  border: 0;
+  margin: 0 10px;
+  float: left;
+  display: inline;
+}
+.wrap a {
+  display: block;
+  width: 220px;
+  height: 270px;
+  text-decoration: none;
+  color: #000;
+}
+
+.wrap p {
+  display: block;
+  width: 220px;
+  height: 270px;
+  position: absolute;
+  left: 0;
+  top: 270px;
+  z-index: 1;
+  background: transparent;
+  font-size: 12px;
+  color: #fff;
+  padding: 0;
   margin: 0;
+  line-height: 16px;
+  -webkit-transition: all 0.6s ease-in-out;
 }
-.el-carousel__item h5 {
+.wrap p b {
+  display: block;
+  font-size: 16px;
+  color: darkslategrey;
   text-align: center;
-  color: black;
-  font-size: 18px;
-  opacity: 0.75;
-  line-height: -200px;
-  font-size: 18px;
   margin: 0;
+  padding: 0;
+  line-height: 30px;
 }
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
+.wrap a:hover {
+  direction: ltr;
 }
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
+.wrap a:hover i {
+  top: 0;
+}
+.wrap a:hover p {
+  top: 250px;
+}
+.clear {
+  clear: left;
 }
 </style>
 
