@@ -1,32 +1,17 @@
 <template>
   <div id="app">
-    <div class="headerC">
-      <headerDiv></headerDiv>
-    </div>
-    <div class="centerC">
-      <router-view/>
-    </div>
-    <footer>
-      <footerDiv></footerDiv>
-    </footer>
+    <router-view/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import footerDiv from "@/views/footer.vue";
-import headerDiv from "@/views/header.vue";
 export default {
-  name: "home",
-  components: {
-    headerDiv,
-    footerDiv
-  }
+  name: "home"
 };
 </script>
 
 <style scoped>
-#app {
+#main {
   margin: 0px;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -34,30 +19,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   height: 100%;
-}
-.headerC {
-  height: 10%;
-  width: 100%;
-  float: left;
-  font-size: 24px;
-  font-weight: bolder;
-  background-color: darkgreen;
-  color: white;
-}
-.centerC {
-  float: left;
-  height: 80%;
-  text-align: center;
-}
-.contentC {
-  background-color: white;
-  float: left;
-}
-.footerC {
-  height: 10%;
-  text-align: center;
-  background-color: darkgreen;
-  color: white;
 }
 </style>
 

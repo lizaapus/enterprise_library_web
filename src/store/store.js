@@ -8,6 +8,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
+        token: '',
         modeList: new Array(),
         sectionList: new Array(),
         companyList: new Array(),
@@ -25,6 +26,9 @@ export default new Vuex.Store({
 
     },
     mutations: {
+        settoken(state, token) {
+            state.token = token
+        },
         async setSectionList(state, ref) {
             const result = await ref.$http.get("/api/sectionData");
             state.sectionList = result.Data;
@@ -50,7 +54,7 @@ export default new Vuex.Store({
                 });
         },
         delSearchDic(state, data) {
-            alert("enter");
+            //alert("enter");
             let index = 0;
             for (var key in state.searchDic) {
                 if (state.searchDic[key].name == data.data.name) {
@@ -70,25 +74,9 @@ export default new Vuex.Store({
 
         async setCompanyList(state, data) {
             try {
-                let path = data.path.replace("/", "");;
-                if (path == '') {
-                    state.selectedSection = '';
-                    state.selectedMode = '';
-                } else {
-                    if (state.modeList.length == 0) {
-                        this.commit('setModeList', data.ref);
-                        this.commit('setSectionList', data.ref);
-                    }
-                    let tempArray = state.modeList.filter(mode => mode.path == path);
-
-                    if (tempArray.length > 0) {
-                        state.selectedSection = '';
-                        state.selectedMode = tempArray[0].modeName;
-                    } else {
-                        tempArray = state.sectionList.filter(section => section.path == path);
-                        state.selectedSection = tempArray[0].sectionName;
-                        state.selectedMode = '';
-                    }
+                if (state.modeList.length == 0) {
+                    this.commit('setModeList', data.ref);
+                    this.commit('setSectionList', data.ref);
                 }
                 this.commit('setData', data.ref);
             } catch (err) {
@@ -96,27 +84,9 @@ export default new Vuex.Store({
             }
         },
 
-        setSectionlist(state, data) {
-            if (state.modeList.length == 0) {
-                this.commit('setModeList', data.ref);
-                this.commit('setSectionList', data.ref);
-            }
-            let tempArray = state.modeList.filter(mode => mode.modeName == path);
-
-            if (tempArray.length > 0) {
-                state.selectedSection = '';
-                state.selectedMode = tempArray[0].modeName;
-            } else {
-                tempArray = state.sectionList.filter(section => section.sectionName == path);
-                state.selectedSection = tempArray[0].sectionName;
-                state.selectedMode = '';
-            }
-        },
-
         setSelectedItem(state, data) {
             state.selectedItem = data;
         },
-
         async setCompanySectionList(state, data) {
             state.selectedSection = data.sectionName;
             this.commit('setData', data.ref);

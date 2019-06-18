@@ -5,10 +5,12 @@
     </div>
     <div class="nav">
       <ul>
-        <li>首页</li>
+        <!-- <li>首页</li>
         <li>地区</li>
-        <li>模式</li>
-        <li>搜索</li>
+        <li>模式</li>-->
+        <!-- <li>
+          <el-button type="warning">退出登录</el-button>
+        </li>-->
       </ul>
     </div>
   </div>

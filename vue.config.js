@@ -4,15 +4,86 @@ module.exports = {
         devServer: {
             port: 7000,
             open: true,
+
             //添加mock数据
             before(app) {
-                //获取区域数据
-                app.get('/api/sectionData', (req, res) => {
-                    res.json({
-                        Data: sectionData,
+                //用户信息池
+                let userpoor = [{
+                            username: 'admin',
+                            password: '123456'
+                        },
+                        {
+                            username: 'test',
+                            password: '123456'
+                        }
+                    ]
+                    //注册接口
+                app.get('/api/register', (req, res) => {
+                        const {
+                            username,
+                            password
+                        } = req.query
+                        const userlength = userpoor.filter(v => v.username == username).length
+                        if (userlength > 0) {
+                            res.json({
+                                success: false,
+                                message: '用户名已存在'
+                            })
+                        } else {
+                            userpoor.push({
+                                username: username,
+                                password: password
+                            });
+                            res.json({
+                                success: true,
+                                message: '注册成功'
+                            })
+                        }
                     })
-                })
-                //获取经营模式数据
+                    //登录接口
+                let tokenkey = 'xdclass'
+                app.get('/api/login', (req, res) => {
+                        const {
+                            username,
+                            password
+                        } = req.query
+                            //console.log(username);
+
+                        const userlength = userpoor.filter(v => v.username == username && v.password == password).length;
+                        if (userlength > 0) {
+                            res.json({
+                                code: 0,
+                                message: '登录成功',
+                                token: tokenkey + '-' + username + '-' + (new Date().getTime() + 60 * 60 * 1000)
+                            })
+                        } else {
+                            console.log('enter else');
+                            res.json({
+                                code: 1,
+                                message: '账号或密码错误'
+                            })
+                        }
+                        // if (username == 'admin' && password == '123456' || username == 'test' && password == '123456') {
+                        //     res.json({
+                        //         code: 0,
+                        //         message: '登录成功',
+                        //         token: tokenkey + '-' + username + '-' + (new Date().getTime() + 60 * 60 * 1000)
+                        //     })
+                        // } else {
+                        //     console.log('enter else');
+                        //     res.json({
+                        //         code: 1,
+                        //         message: '账号或密码错误'
+                        //     })
+                        // }
+                    })
+                    //获取区域数据
+                app.get('/api/sectionData', (req, res) => {
+                        res.json({
+                            Data: sectionData,
+                        })
+                    })
+                    //获取经营模式数据
                 app.get('/api/modeData', (req, res) => {
                     res.json({
                         Data: modeData,
@@ -21,83 +92,83 @@ module.exports = {
 
                 //获取指定页数据信息
                 app.get('/api/getCompanyList', (req, res) => {
-                    const {
-                        sectionName,
-                        modeName,
-                        companyName,
-                        startIndex,
-                        endIndex,
-                    } = req.query;
-                    var data = new Array();
-                    let tempData = companyDic.filter(c => {
-                        let flag = true;
-                        if (sectionName != '' && c.sectionName != sectionName)
-                            return false;
-                        if (modeName != '' && c.modeName != modeName)
-                            return false;
-                        if (companyName != '' && c.companyName.match(companyName) == null)
-                            return false;
-                        return true;
-                    })
-                    for (var i = parseInt(startIndex); i < parseInt(endIndex); i++) {
-                        data.push(tempData[i]);
-                        //console.log(tempData[i]);
-                    }
-                    // if (sectionName == '' && modeName == '') {
-                    //     try {
-                    //         for (var i = parseInt(startIndex); i < parseInt(endIndex); i++) {
-                    //             data.push(companyDic[i]);
-                    //         }
-                    //     } catch (err) {
-                    //         console.log(err);
-                    //     }
+                        const {
+                            sectionName,
+                            modeName,
+                            companyName,
+                            startIndex,
+                            endIndex,
+                        } = req.query;
+                        var data = new Array();
+                        let tempData = companyDic.filter(c => {
+                            let flag = true;
+                            if (sectionName != '' && c.sectionName != sectionName)
+                                return false;
+                            if (modeName != '' && c.modeName != modeName)
+                                return false;
+                            if (companyName != '' && c.companyName.match(companyName) == null)
+                                return false;
+                            return true;
+                        })
+                        for (var i = parseInt(startIndex); i < parseInt(endIndex); i++) {
+                            data.push(tempData[i]);
+                            //console.log(tempData[i]);
+                        }
+                        // if (sectionName == '' && modeName == '') {
+                        //     try {
+                        //         for (var i = parseInt(startIndex); i < parseInt(endIndex); i++) {
+                        //             data.push(companyDic[i]);
+                        //         }
+                        //     } catch (err) {
+                        //         console.log(err);
+                        //     }
 
-                    // }
-                    // if (sectionName != '') {
-                    //     let tempData = companyDic.filter(c => c.sectionName == sectionName);
-                    //     for (let i = parseInt(startIndex); i < parseInt(endIndex); i++) {
-                    //         data.push(tempData[i]);
-                    //     }
-                    // }
-                    // if(modeName != '') {
-                    //     let tempData = companyDic.filter(c => c.modeName == modeName);
-                    //     for (let i = parseInt(startIndex); i < parseInt(endIndex); i++) {
-                    //         data.push(tempData[i]);
-                    //     }
-                    // }
-                    res.json({
-                        Data: data,
+                        // }
+                        // if (sectionName != '') {
+                        //     let tempData = companyDic.filter(c => c.sectionName == sectionName);
+                        //     for (let i = parseInt(startIndex); i < parseInt(endIndex); i++) {
+                        //         data.push(tempData[i]);
+                        //     }
+                        // }
+                        // if(modeName != '') {
+                        //     let tempData = companyDic.filter(c => c.modeName == modeName);
+                        //     for (let i = parseInt(startIndex); i < parseInt(endIndex); i++) {
+                        //         data.push(tempData[i]);
+                        //     }
+                        // }
+                        res.json({
+                            Data: data,
+                        })
                     })
-                })
-                //获取页面数据总数
+                    //获取页面数据总数
                 app.get('/api/getCompanyListTotalNumb', (req, res) => {
-                    const {
-                        sectionName,
-                        modeName,
-                        companyName,
-                    } = req.query;
-                    var len = companyDic.filter(c => {
-                        let flag = true;
-                        if (sectionName != '' && c.sectionName != sectionName)
-                            return false;
-                        if (modeName != '' && c.modeName != modeName)
-                            return false;
-                        if (companyName != '' && c.companyName.match(companyName) == null)
-                            return false;
-                        return true;
-                    }).length;
-                    // if (sectionName == '' && modeName == '')
-                    //     len = companyDic.length;
-                    // if (sectionName != '')
-                    //     len = companyDic.filter(c => c.sectionName == sectionName).length;
-                    // if (modeName != '')
-                    //     len = companyDic.filter(c => c.modeName == modeName).length;
+                        const {
+                            sectionName,
+                            modeName,
+                            companyName,
+                        } = req.query;
+                        var len = companyDic.filter(c => {
+                            let flag = true;
+                            if (sectionName != '' && c.sectionName != sectionName)
+                                return false;
+                            if (modeName != '' && c.modeName != modeName)
+                                return false;
+                            if (companyName != '' && c.companyName.match(companyName) == null)
+                                return false;
+                            return true;
+                        }).length;
+                        // if (sectionName == '' && modeName == '')
+                        //     len = companyDic.length;
+                        // if (sectionName != '')
+                        //     len = companyDic.filter(c => c.sectionName == sectionName).length;
+                        // if (modeName != '')
+                        //     len = companyDic.filter(c => c.modeName == modeName).length;
 
-                    res.json({
-                        length: len
-                    });
-                })
-                //根据url获取公司的详细信息
+                        res.json({
+                            length: len
+                        });
+                    })
+                    //根据url获取公司的详细信息
                 app.get('/api/getCompanyDetail', (req, res) => {
                     const {
                         companyUrl
@@ -110,60 +181,60 @@ module.exports = {
 
                 //所在地
                 const sectionData = [{
-                        id: 1,
-                        sectionName: '北京',
-                        path: 'beijing'
-                    },
-                    {
-                        id: 2,
-                        sectionName: '上海',
-                        path: 'shanghai'
-                    }, {
-                        id: 3,
-                        sectionName: '广州',
-                        path: 'guangzhou'
-                    }, {
-                        id: 4,
-                        sectionName: '河南 郑州',
-                        path: 'shenzhen'
-                    }, {
-                        id: 5,
-                        sectionName: '天津',
-                        path: 'tianjin'
-                    },
-                    {
-                        id: 6,
-                        sectionName: '山东 济南',
-                        path: 'shandongJN'
-                    },
-                ]
-                //经营模式
+                            id: 1,
+                            sectionName: '北京',
+                            path: 'beijing'
+                        },
+                        {
+                            id: 2,
+                            sectionName: '上海',
+                            path: 'shanghai'
+                        }, {
+                            id: 3,
+                            sectionName: '广州',
+                            path: 'guangzhou'
+                        }, {
+                            id: 4,
+                            sectionName: '河南 郑州',
+                            path: 'shenzhen'
+                        }, {
+                            id: 5,
+                            sectionName: '天津',
+                            path: 'tianjin'
+                        },
+                        {
+                            id: 6,
+                            sectionName: '山东 济南',
+                            path: 'shandongJN'
+                        },
+                    ]
+                    //经营模式
                 const modeData = [{
-                        id: 1,
-                        modeName: '全国总代理',
-                        path: 'qgzdl'
-                    }, {
-                        id: 2,
-                        modeName: '地区代理',
-                        path: 'dqdl'
-                    },
-                    {
-                        id: 3,
-                        modeName: '私人经营',
-                        path: 'srjy'
-                    },
-                    {
-                        id: 4,
-                        modeName: '经销商',
-                        path: 'jxs'
-                    },
-                    {
-                        id: 5,
-                        modeName: '生产厂家',
-                        path: 'sccj'
-                    },
-                ]
-                //所有公司信息
+                            id: 1,
+                            modeName: '全国总代理',
+                            path: 'qgzdl'
+                        }, {
+                            id: 2,
+                            modeName: '地区代理',
+                            path: 'dqdl'
+                        },
+                        {
+                            id: 3,
+                            modeName: '私人经营',
+                            path: 'srjy'
+                        },
+                        {
+                            id: 4,
+                            modeName: '经销商',
+                            path: 'jxs'
+                        },
+                        {
+                            id: 5,
+                            modeName: '生产厂家',
+                            path: 'sccj'
+                        },
+                    ]
+                    //所有公司信息
                 const companyDic = [{
                         id: 1,
                         companyName: '山东康迪医疗设备有限公司',

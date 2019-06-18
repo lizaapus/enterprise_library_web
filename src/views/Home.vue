@@ -82,8 +82,6 @@ export default {
       var sessionObj = sessionStorage.getItem("queryParmas");
       if (sessionObj) {
         var queryParmas = JSON.parse(sessionObj);
-        // alert(parseInt(queryParmas.startIndex));
-        // alert(parseInt(queryParmas.endIndex));
         this.$store.state.selectedSection = queryParmas.sectionName;
         this.$store.state.selectedMode = queryParmas.modeName;
         this.$store.state.companyName = queryParmas.companyName;
@@ -213,6 +211,7 @@ export default {
   height: 100%;
   width: 15%;
   margin-left: 15%;
+  padding: 0px;
 }
 .comC {
   float: left;

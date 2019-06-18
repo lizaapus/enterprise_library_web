@@ -1,7 +1,34 @@
 <template>
-  <div class="nav-left">
-    <el-collapse v-model="activeNames" @change="handleChange" class="collapse">
-      <el-collapse-item title="所在地" name="1" class="itemBck">
+  <!-- <div class="nav-left"> -->
+  <section id="conter">
+    <section id="help-left">
+      <details class="menu" open>
+        <summary>所在地区</summary>
+        <ul>
+          <li v-for="item in $store.state.sectionList">
+            <div @click="setSectionCompanyList(item)" class="itemDiv">
+              <span class="itemleft" v-text="item.sectionName"></span>
+              <span class="itemright">20</span>
+            </div>
+          </li>
+        </ul>
+      </details>
+      <details class="menu" open>
+        <summary>经营方式</summary>
+        <ul>
+          <li v-for="item in $store.state.modeList">
+            <div @click="setModeCompanyList(item)" class="itemDiv">
+              <span v-text="item.modeName" class="itemleft"></span>
+              <span class="itemright">20</span>
+            </div>
+          </li>
+        </ul>
+      </details>
+    </section>
+  </section>
+
+  <!-- <el-collapse v-model="activeNames" @change="handleChange" class="collapse">
+      <el-collapse-item title="所在地" name="1">
         <el-row>
           <el-col :span="24">
             <div>
@@ -17,7 +44,7 @@
           </el-col>
         </el-row>
       </el-collapse-item>
-      <el-collapse-item title="经营方式" name="2" class="itemBck">
+      <el-collapse-item title="经营方式" name="2">
         <el-row>
           <el-col :span="24">
             <div>
@@ -33,14 +60,13 @@
           </el-col>
         </el-row>
       </el-collapse-item>
-    </el-collapse>
-  </div>
+  </el-collapse>-->
 </template>
 <script>
 export default {
   data() {
     return {
-      activeNames: ["1"]
+      activeNames: ["1", "2"]
     };
   },
 
@@ -48,20 +74,20 @@ export default {
     handleChange(val) {
       console.log(val);
     },
-    setSectionCompanyList(row, event, column) {
+    setSectionCompanyList(item) {
       // 命名的路由
       this.$store.commit("setCompanySectionList", {
-        sectionName: row.sectionName,
+        sectionName: item.sectionName,
         ref: this
       });
 
       this.$store.commit("addSearchDic", {
         key: "sectionName",
-        value: row.sectionName
+        value: item.sectionName
       });
       this.$router.push({
         name: "home",
-        params: { sectionID: row.path }
+        params: { sectionID: item.path }
       });
       // this.$router.push({
       //   name: "companyList",
@@ -80,7 +106,7 @@ export default {
       };
       sessionStorage.queryParmas = JSON.stringify(queryParmas);
     },
-    setModeCompanyList(row, event, column) {
+    setModeCompanyList(row) {
       this.$store.commit("setCompanyModeList", {
         modeName: row.modeName,
         ref: this
@@ -122,27 +148,102 @@ export default {
   }
 };
 </script>
-<style scoped>
-.nav-left {
-  height: 100%;
-  width: 100%;
-  float: left;
-  /* background-color: rgb(191, 216, 218); */
-  color: black;
+<style >
+* {
+  margin: 0;
+  padding: 0;
 }
-.nav-left ul {
-  padding: 0px;
-  margin-left: 10px;
+a {
+  text-decoration: none;
+}
+#conter {
+  padding: 0;
+  margin: auto;
+  margin-left: 60px;
+}
+#help-left {
+  width: 260px;
+  font-family: "microsoft YaHei";
   float: left;
 }
-.nav-left li {
+
+.menu {
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+
+.menu:last-child {
+  border-bottom: 1px solid #ccc;
+}
+
+.menu summary {
+  height: 40px;
+  line-height: 40px;
+  text-indent: 10px;
+  outline: none;
+  font-size: 14px;
+  font-weight: 700;
+  border-top: 1px solid #ddd;
+  background: #f1f1f1;
+  color: red;
+  cursor: pointer;
+  letter-spacing: 2px;
+}
+
+.menu summary::-webkit-details-marker {
+  display: none;
+}
+.menu summary:before {
+  content: "+";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  margin-left: -190px;
+}
+
+.menu[open] summary:before {
+  content: "-";
+}
+
+.menu ul {
+  padding: 10px 0;
+}
+
+.menu ul li {
   list-style: none;
-  text-align: center;
-  border-bottom-color: bisque;
-  padding: 10px;
+  text-indent: 25px;
+  font-size: 12px;
+  height: 30px;
+  line-height: 30px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.menu ul li a {
+  display: block;
+  color: #666;
+}
+
+.menu ul li a:hover {
+  text-decoration: underline;
+}
+.itemDiv {
+  cursor: pointer;
+  box-orient: horizontal;
+  width: 240px;
+}
+
+.itemDiv:hover {
+  /* background-color: antiquewhite; */
+  color: red;
+}
+.itemleft {
   float: left;
 }
-.itemBck {
-  background-color: red;
+.itemright {
+  float: right;
 }
 </style>

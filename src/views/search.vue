@@ -2,7 +2,13 @@
   <div class="searchDiv">
     <el-form :inline="true" :model="formInline" class="searchfrom">
       <el-form-item label="公司名称:">
-        <el-input v-model="$store.state.companyName" placeholder="关键字" style="width:200px"></el-input>
+        <el-input
+          v-model="$store.state.companyName"
+          placeholder="关键字"
+          style="width:200px"
+          clearable
+          @clear="onSubmit"
+        ></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="success" @click="onSubmit">查询</el-button>
